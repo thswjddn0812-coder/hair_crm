@@ -7,9 +7,17 @@ import { UpdateVisitRecordDto } from './dto/update-visit_record.dto';
 export class VisitRecordsController {
   constructor(private readonly visitRecordsService: VisitRecordsService) {}
 
-  @Post()
-  create(@Body() createVisitRecordDto: CreateVisitRecordDto) {
-    return this.visitRecordsService.create(createVisitRecordDto);
+  @Post("members/:memberId/visit-records")
+  async create(
+    @Param("memberId") memberId:number,
+    @Body() createVisitRecordDto:CreateVisitRecordDto
+  ){
+    return await this.visitRecordsService.create(memberId, createVisitRecordDto);
+  }
+
+  @Get("members/:memberId")
+  async findByMemberId(@Param("memberId") memberId: number) {
+    return await this.visitRecordsService.findByMemberId(memberId);
   }
 
   @Get()
