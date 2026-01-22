@@ -18,4 +18,8 @@ export class MembersController {
   async findAll(@Query('name') name?:string,@Query('phone') phone?:string){
     return await this.membersService.findAll(name,phone);
   }
+  @Delete(":memberId")
+  async remove(@Param('memberId') memberId:number){
+    return await this.membersService.remove(memberId)
+  }
 }

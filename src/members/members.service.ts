@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateMemberDto } from './dto/create-member.dto';
 import { UpdateMemberDto } from './dto/update-member.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -39,7 +39,12 @@ export class MembersService {
     return `This action updates a #${id} member`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} member`;
+  async remove(memberId: number) {
+    const member=await this.membersRepository.findOneBy({id:memberId})
+    if(!member){
+      throw new NotFoundException(`ID가 ${memberId}인 회원을 찾을 수 없습니다.`);
+    }
+    await this.membersRepository.delete(memberId);
+    return {message:`회원이 성공적으로 삭제되었습니다.`}
   }
 }
