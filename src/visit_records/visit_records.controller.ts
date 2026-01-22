@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
 import { VisitRecordsService } from './visit_records.service';
 import { CreateVisitRecordDto } from './dto/create-visit_record.dto';
 import { UpdateVisitRecordDto } from './dto/update-visit_record.dto';
@@ -20,6 +20,10 @@ export class VisitRecordsController {
     return await this.visitRecordsService.findByMemberId(memberId);
   }
 
+  @Get("Date")
+  async getDate(@Query('date')date:Date){
+    return await this.visitRecordsService.getDate(date)
+  }
   @Get()
   findAll() {
     return this.visitRecordsService.findAll();

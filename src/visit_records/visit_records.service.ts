@@ -4,7 +4,7 @@ import { UpdateVisitRecordDto } from './dto/update-visit_record.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { VisitRecords } from './entities/visit_record.entity';
 import { Members } from '../members/entities/member.entity';
-import { Repository } from 'typeorm';
+import { Between, Repository } from 'typeorm';
 
 @Injectable()
 export class VisitRecordsService {
@@ -48,6 +48,16 @@ export class VisitRecordsService {
       where: { memberId },
       order: { visitedAt: 'DESC' }, // 최신 순으로 정렬
     });
+  }
+  async getDate(date:Date) {
+    const start=new Date(date);
+    start.setHours(0,0,0,0);
+    const end=new Date(date);
+    end.setHours(23,59,59,999);
+    const findDate=await this.visitRecordsRepository.find({
+      where:{visitedAt:Between(start,end)},
+    });
+    return findDate
   }
 
   findAll() {

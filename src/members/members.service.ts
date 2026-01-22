@@ -35,10 +35,6 @@ export class MembersService {
     });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} member`;
-  }
-
   update(id: number, updateMemberDto: UpdateMemberDto) {
     return `This action updates a #${id} member`;
   }
